@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
 import { Query, Mutation } from 'react-apollo';
+import { connect } from 'react-redux';
 
 import './App.css';
 
-// Remote Query
 const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   {
     organization(login: "the-road-to-learn-react") {
@@ -22,15 +22,6 @@ const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   }
 `;
 
-// Local Query
-// exported to be used in resolver to read this particular data from cache
-const GET_SELECTED_REPOSITORIES = gql`
-  query {
-    selectedRepositoryIds @client
-  }
-`;
-
-// Remote Mutation
 const STAR_REPOSITORY = gql`
   mutation($id: ID!) {
     addStar(input: { starrableId: $id }) {
@@ -42,12 +33,7 @@ const STAR_REPOSITORY = gql`
   }
 `;
 
-// Local Mutation
-const SELECT_REPOSITORY = gql`
-  mutation($id: ID!, $isSelected: Boolean!) {
-    toggleSelectRepository(id: $id, isSelected: $isSelected) @client
-  }
-`;
+// Redux "Connected" Component
 
 const App = () => (
   <Query query={GET_REPOSITORIES_OF_ORGANIZATION}>
@@ -63,16 +49,7 @@ const App = () => (
   </Query>
 );
 
-const Repositories = ({ repositories }) => (
-  <Query query={GET_SELECTED_REPOSITORIES}>
-    {({ data: { selectedRepositoryIds } }) => (
-      <RepositoryList
-        repositories={repositories}
-        selectedRepositoryIds={selectedRepositoryIds}
-      />
-    )}
-  </Query>
-);
+// Redux Connected Component
 
 const RepositoryList = ({ repositories, selectedRepositoryIds }) => (
   <ul>
@@ -87,7 +64,7 @@ const RepositoryList = ({ repositories, selectedRepositoryIds }) => (
 
       return (
         <li className={rowClassName.join(' ')} key={node.id}>
-          <Select id={node.id} isSelected={isSelected} />{' '}
+          <SelectContainer id={node.id} isSelected={isSelected} />{' '}
           <a href={node.url}>{node.name}</a>{' '}
           {!node.viewerHasStarred && <Star id={node.id} />}
         </li>
@@ -96,29 +73,39 @@ const RepositoryList = ({ repositories, selectedRepositoryIds }) => (
   </ul>
 );
 
-const Select = ({ id, isSelected }) => (
-  <Mutation
-    mutation={SELECT_REPOSITORY}
-    variables={{ id, isSelected }}
-  >
-    {toggleSelectRepository => (
-      <Fragment>
-        <button type="button" onClick={toggleSelectRepository}>
-          {isSelected ? 'Unselect' : 'Select'}
-        </button>
-      </Fragment>
-    )}
-  </Mutation>
+const mapStateToProps = state => ({
+  selectedRepositoryIds: state.selectedRepositoryIds,
+});
+
+const Repositories = connect(mapStateToProps)(RepositoryList);
+
+// Redux Connected Component
+
+const Select = ({ isSelected, toggleSelectRepository }) => (
+  <button type="button" onClick={toggleSelectRepository}>
+    {isSelected ? 'Unselect' : 'Select'}
+  </button>
 );
+
+const mapDispatchToProps = (dispatch, { id, isSelected }) => ({
+  toggleSelectRepository: () =>
+    dispatch({
+      type: 'TOGGLE_SELECT_REPOSITORY',
+      id,
+      isSelected,
+    }),
+});
+
+const SelectContainer = connect(null, mapDispatchToProps)(Select);
+
+// Apollo "Connected" Component
 
 const Star = ({ id }) => (
   <Mutation mutation={STAR_REPOSITORY} variables={{ id }}>
     {starRepository => (
-      <Fragment>
-        <button type="button" onClick={starRepository}>
-          Star
-        </button>
-      </Fragment>
+      <button type="button" onClick={starRepository}>
+        Star
+      </button>
     )}
   </Mutation>
 );

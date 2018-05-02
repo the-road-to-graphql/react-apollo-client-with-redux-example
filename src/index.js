@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
-import { withClientState } from 'apollo-link-state';
+import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
 import App from './App';
 
@@ -31,11 +35,39 @@ const client = new ApolloClient({
 
 // Redux Store Setup
 
+const initialState = {
+  selectedRepositoryIds: [],
+};
+
+function repositoryReducer(state, action) {
+  switch (action.type) {
+    case 'TOGGLE_SELECT_REPOSITORY': {
+      return applyToggleSelectRepository(state, action);
+    }
+    default:
+      return state;
+  }
+}
+
+function applyToggleSelectRepository(state, action) {
+  const { id, isSelected } = action;
+
+  const selectedRepositoryIds = isSelected
+    ? state.selectedRepositoryIds.filter(itemId => itemId !== id)
+    : state.selectedRepositoryIds.concat(id);
+
+  return { ...state, selectedRepositoryIds };
+}
+
+const store = createStore(repositoryReducer, initialState);
+
 // Render
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ApolloProvider>,
   document.getElementById('root'),
 );
