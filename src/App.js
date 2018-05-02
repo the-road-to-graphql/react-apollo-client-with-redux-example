@@ -24,7 +24,7 @@ const GET_REPOSITORIES_OF_ORGANIZATION = gql`
 
 // Local Query
 // exported to be used in resolver to read this particular data from cache
-export const GET_SELECTED_REPOSITORIES = gql`
+const GET_SELECTED_REPOSITORIES = gql`
   query {
     selectedRepositoryIds @client
   }
