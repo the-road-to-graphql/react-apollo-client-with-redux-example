@@ -1,0 +1,15 @@
+.row {
+  padding: 5px;
+}
+
+.row:hover {
+  background-color: lightblue;
+}
+
+.row_selected {
+  background-color: orange;
+}
+
+.row_selected:hover {
+  background-color: orange;
+}
