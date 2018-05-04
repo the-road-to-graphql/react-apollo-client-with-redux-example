@@ -1,11 +1,11 @@
-# react-apollo-link-state-redux-example
+# react-apollo-client-with-redux-example
 
-A React application using Apollo Client with [apollo-link-state](https://www.apollographql.com/docs/link/links/state.html) and Redux **side by side** for local state management. While Redux is used to manage selected items in a list as local data, the remaining queries and mutations from Apollo Client are used for remote data.
+A React application using Apollo Client for remote data and Redux for local data **side by side** for state management. While Redux is used to manage selected items as local data, the remaining queries and mutations from Apollo Client are used for remote data.
 
 ## Installation
 
-* `git clone git@github.com:rwieruch/react-apollo-link-state-redux-example.git`
-* cd react-apollo-link-state-redux-example
+* `git clone git@github.com:rwieruch/react-apollo-client-with-redux-example.git`
+* cd react-apollo-client-with-redux-example
 * npm install
 * [add your own REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN in .env file](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
   * scopes/permissions you need to check: admin:org, repo, user, notifications
