@@ -1,5 +1,5 @@
 {
-  "name": "react-apollo-link-state-redux-example",
+  "name": "react-apollo-client-with-redux-example",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
