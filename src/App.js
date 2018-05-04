@@ -33,7 +33,7 @@ const STAR_REPOSITORY = gql`
   }
 `;
 
-// Redux "Connected" Component
+// Apollo "Connected" Component
 
 const App = () => (
   <Query query={GET_REPOSITORIES_OF_ORGANIZATION}>
