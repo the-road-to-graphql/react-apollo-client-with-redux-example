@@ -6,7 +6,7 @@ A React application using Apollo Client for remote data and Redux for local data
 
 ## Installation
 
-* `git clone git@github.com:rwieruch/react-apollo-client-with-redux-example.git`
+* `git clone git@github.com:the-road-to-graphql/react-apollo-client-with-redux-example.git`
 * cd react-apollo-client-with-redux-example
 * npm install
 * [add your own REACT_APP_GITHUB_PERSONAL_ACCESS_TOKEN in .env file](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/)
