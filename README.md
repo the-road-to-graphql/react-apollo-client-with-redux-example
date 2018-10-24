@@ -1,6 +1,7 @@
 # react-apollo-client-with-redux-example
 
-[![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/)
+[![Build Status](https://travis-ci.org/the-road-to-graphql/react-apollo-client-with-redux-example.svg?branch=master)](https://travis-ci.org/the-road-to-graphql/react-apollo-client-with-redux-example)
+ [![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/)
 
 A React application using Apollo Client for remote data and Redux for local data **side by side** for state management. While Redux is used to manage selected items as local data, the remaining queries and mutations from Apollo Client are used for remote data. [Read more about it here](https://www.robinwieruch.de/react-redux-apollo-client-state-management-tutorial).
 
